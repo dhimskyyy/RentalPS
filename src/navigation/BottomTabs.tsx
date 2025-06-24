@@ -1,13 +1,15 @@
 import React from 'react';
 import { Image, View, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import type { RootTabParamList } from './navigation';
 
 import HomeScreen from '../screens/HomeScreen';
 import BookingScreen from '../screens/BookingScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<RootTabParamList>();
+
 
 const icons = {
   Home: require('../assets/img/icons/ihome.png'),
@@ -51,7 +53,7 @@ export default function BottomTabs() {
       <Tab.Screen
         name="Booking"
         component={BookingScreen}
-        options={{ tabBarLabel: 'Book' }}
+        options={{ tabBarLabel: 'Booking' }}
       />
       <Tab.Screen
         name="Settings"

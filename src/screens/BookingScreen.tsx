@@ -1,25 +1,33 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 const BookingScreen = () => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>🕹 Booking PS</Text>
-      <TouchableOpacity style={styles.card}>
-        <Text style={styles.cardTitle}>PS 5 - Room 1</Text>
-        <Text style={styles.cardDesc}>Rp 15.000 / jam</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.card}>
-        <Text style={styles.cardTitle}>PS 4 - Room 2</Text>
-        <Text style={styles.cardDesc}>Rp 10.000 / jam</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 80 }}>
+        <Text style={styles.heading}>🕹 Booking PS</Text>
+        <TouchableOpacity style={styles.card}>
+          <Text style={styles.cardTitle}>PS 5 - Room 1</Text>
+          <Text style={styles.cardDesc}>Rp 15.000 / jam</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.card}>
+          <Text style={styles.cardTitle}>PS 4 - Room 2</Text>
+          <Text style={styles.cardDesc}>Rp 10.000 / jam</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 export default BookingScreen;
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#f5f9ff',
+  },
   container: {
     flex: 1,
     padding: 20,
@@ -28,7 +36,6 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 22,
     fontWeight: 'bold',
-    marginTop: 55,
     marginBottom: 20,
     color: '#007aff',
   },

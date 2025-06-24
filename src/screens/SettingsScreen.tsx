@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 export default function SettingsScreen() {
   const handlePress = (label: string) => {
@@ -8,40 +10,46 @@ export default function SettingsScreen() {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.title}>Pengaturan</Text>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView style={styles.container}>
+        <Text style={styles.title}>Pengaturan</Text>
 
-      <View style={styles.optionContainer}>
-        <TouchableOpacity style={styles.option} onPress={() => handlePress('Edit Profil')}>
-          <Image source={require('../assets/img/icons/edit-profile.png')} style={styles.icon} />
-          <Text style={styles.optionText}>Edit Profil</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.option} onPress={() => handlePress('Tema')}>
-          <Image source={require('../assets/img/icons/theme.png')} style={styles.icon} />
-          <Text style={styles.optionText}>Tema</Text>
+        <View style={styles.optionContainer}>
+          <TouchableOpacity style={styles.option} onPress={() => handlePress('Edit Profil')}>
+            <Image source={require('../assets/img/icons/edit-profile.png')} style={styles.icon} />
+            <Text style={styles.optionText}>Edit Profil</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.option} onPress={() => handlePress('Tema')}>
+            <Image source={require('../assets/img/icons/theme.png')} style={styles.icon} />
+            <Text style={styles.optionText}>Tema</Text>
 
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.option} onPress={() => handlePress('Bahasa')}>
-          <Image source={require('../assets/img/icons/languange.png')} style={styles.icon} />
-          <Text style={styles.optionText}>Bahasa</Text>
-        </TouchableOpacity>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.option} onPress={() => handlePress('Bahasa')}>
+            <Image source={require('../assets/img/icons/languange.png')} style={styles.icon} />
+            <Text style={styles.optionText}>Bahasa</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.option} onPress={() => handlePress('Tentang')}>
-          <Image source={require('../assets/img/icons/about.png')} style={styles.icon} />
-          <Text style={styles.optionText}>Tentang Aplikasi</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.option} onPress={() => handlePress('Tentang')}>
+            <Image source={require('../assets/img/icons/about.png')} style={styles.icon} />
+            <Text style={styles.optionText}>Tentang Aplikasi</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.option} onPress={() => handlePress('Keluar')}>
-          <Image source={require('../assets/img/icons/logout.png')} style={styles.icon} />
-          <Text style={styles.optionText}>Keluar</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+          <TouchableOpacity style={styles.option} onPress={() => handlePress('Keluar')}>
+            <Image source={require('../assets/img/icons/logout.png')} style={styles.icon} />
+            <Text style={styles.optionText}>Keluar</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#f5f9ff',
+  },
   container: {
     flex: 1,
     backgroundColor: '#f5f9ff',
@@ -50,7 +58,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: '700',
-    marginTop: 55,
     marginBottom: 20,
     color: '#275EFE',
   },

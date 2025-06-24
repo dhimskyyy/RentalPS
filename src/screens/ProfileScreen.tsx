@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 const ProfileScreen = () => {
   return (
@@ -17,6 +19,10 @@ const ProfileScreen = () => {
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#f5f9ff',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',

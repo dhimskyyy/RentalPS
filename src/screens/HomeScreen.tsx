@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -6,102 +6,162 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  Modal,
+  Pressable,
 } from 'react-native';
+import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
+import type { RootTabParamList } from '../navigation/navigation';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+type HomeScreenNavigationProp = BottomTabNavigationProp<RootTabParamList, 'Home'>;
 
 const HomeScreen = () => {
+  const navigation = useNavigation<HomeScreenNavigationProp>();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<any>(null);
+
+  const handlePressPesan = (item: any) => {
+    setSelectedItem(item);
+    setModalVisible(true);
+  };
+
+  const koleksiPS = [
+    {
+      title: 'PS5 VR',
+      price: 'Rp 50.000 / jam',
+      image: require('../assets/img/icons/ps5vr.png'),
+      spek: 'Paket: PS5 VR, 2 Stik Wireless, TV 55 inch',
+    },
+    {
+      title: 'PS5',
+      price: 'Rp 25.000 / jam',
+      image: require('../assets/img/icons/ps5.png'),
+      spek: 'Paket: PS5, 2 Stik Wireless, TV 50 inch',
+    },
+    {
+      title: 'PS4',
+      price: 'Rp 10.000 / jam',
+      image: require('../assets/img/icons/ps4.png'),
+      spek: 'Paket: PS4, 2 Stik Kabel, TV 42 inch',
+    },
+    {
+      title: 'PS3',
+      price: 'Rp 7.000 / jam',
+      image: require('../assets/img/icons/ps3.png'),
+      spek: 'Paket: PS3, 2 Stik Kabel, TV 32 inch',
+    },
+  ];
+
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {/* Header */}
-      <View style={styles.headerContainer}>
-        <Text style={styles.logo}>Dhims PS</Text>
-        <Image
-        source={require('../assets/img/icons/banner.jpeg')}
-        style={styles.bannerImage}
-        resizeMode="cover"/>
-      </View>
-
-      {/* Koleksi */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Koleksi PS</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.cardRow}>
-          <View style={styles.card}>
-            <Image source={require('../assets/img/icons/ps5vr.png')} style={styles.cardImage} resizeMode="cover" />
-            <Text style={styles.cardTitle}>PS5 VR</Text>
-            <Text style={styles.cardPrice}>Rp 50.000 / jam</Text>
-            <TouchableOpacity style={styles.button}><Text style={styles.buttonText}>PESAN</Text></TouchableOpacity>
-          </View>
-          <View style={styles.card}>
-            <Image source={require('../assets/img/icons/ps5.png')} style={styles.cardImage} resizeMode="cover" />
-            <Text style={styles.cardTitle}>PS5</Text>
-            <Text style={styles.cardPrice}>Rp 25.000 / jam</Text>
-            <TouchableOpacity style={styles.button}><Text style={styles.buttonText}>PESAN</Text></TouchableOpacity>
-          </View>
-          <View style={styles.card}>
-            <Image source={require('../assets/img/icons/ps4.png')} style={styles.cardImage} resizeMode="cover" />
-            <Text style={styles.cardTitle}>PS4</Text>
-            <Text style={styles.cardPrice}>Rp 10.000 / jam</Text>
-            <TouchableOpacity style={styles.button}><Text style={styles.buttonText}>PESAN</Text></TouchableOpacity>
-          </View>
-          <View style={styles.card}>
-            <Image source={require('../assets/img/icons/ps3.png')} style={styles.cardImage} resizeMode="cover" />
-            <Text style={styles.cardTitle}>PS3</Text>
-            <Text style={styles.cardPrice}>Rp 7.000 / jam</Text>
-            <TouchableOpacity style={styles.button}><Text style={styles.buttonText}>PESAN</Text></TouchableOpacity>
-          </View>
-        </ScrollView>
-      </View>
-
-      {/* Promo */}
-      <View style={styles.promoCard}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.promoTitle}>DISKON 50Rb</Text>
-            <Text style={styles.promoDesc}>Untuk Penyewaan PS5 + TV</Text>
-            <Text style={styles.promoCode}>Kode: PS50</Text>
-          </View>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        <View style={styles.headerContainer}>
+          <Text style={styles.logo}>Dhims PS</Text>
           <Image
-            source={require('../assets/img/icons/discount.png')}
-            style={styles.promoImage}
-            resizeMode="contain"/>
+            source={require('../assets/img/icons/banner.jpeg')}
+            style={styles.bannerImage}
+            resizeMode="cover"
+          />
         </View>
-      </View>
-      <View style={styles.promoCard}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.promoTitle}>DISKON 10Rb</Text>
-            <Text style={styles.promoDesc}>Untuk Penyewaan PS4</Text>
-            <Text style={styles.promoCode}>Kode: PS10</Text>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Koleksi PS</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.cardRow}>
+            {koleksiPS.map((item, index) => (
+              <View key={index} style={styles.card}>
+                <Image source={item.image} style={styles.cardImage} resizeMode="cover" />
+                <Text style={styles.cardTitle}>{item.title}</Text>
+                <Text style={styles.cardPrice}>{item.price}</Text>
+                <TouchableOpacity style={styles.button} onPress={() => handlePressPesan(item)}>
+                  <Text style={styles.buttonText}>PESAN</Text>
+                </TouchableOpacity>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+
+        <View style={styles.promoCard}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.promoTitle}>DISKON 50Rb</Text>
+              <Text style={styles.promoDesc}>Untuk Penyewaan PS5 + TV</Text>
+              <Text style={styles.promoCode}>Kode: PS50</Text>
+            </View>
+            <Image
+              source={require('../assets/img/icons/discount.png')}
+              style={styles.promoImage}
+              resizeMode="contain"
+            />
           </View>
-          <Image
-            source={require('../assets/img/icons/discount.png')}
-            style={styles.promoImage}
-            resizeMode="contain"/>
         </View>
-      </View>
+        <View style={styles.promoCard}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.promoTitle}>DISKON 10Rb</Text>
+              <Text style={styles.promoDesc}>Untuk Penyewaan PS4</Text>
+              <Text style={styles.promoCode}>Kode: PS10</Text>
+            </View>
+            <Image
+              source={require('../assets/img/icons/discount.png')}
+              style={styles.promoImage}
+              resizeMode="contain"
+            />
+          </View>
+        </View>
 
-      {/* Rekomendasi */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Rekomendasi Hari Ini</Text>
-        <View style={styles.recommendationBox}>
-          <Text style={styles.recommendationText}>🔥 Main 3 Jam Gratis 1 Jam ( PS 3 & PS 4 )</Text>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Rekomendasi Hari Ini</Text>
+          <View style={styles.recommendationBox}>
+            <Text style={styles.recommendationText}>🔥 Main 3 Jam Gratis 1 Jam ( PS 3 & PS 4 )</Text>
+          </View>
+          <View style={styles.recommendationBox}>
+            <Text style={styles.recommendationText}>🔥 Main 4 Jam Gratis 1 Jam ( PS 5 )</Text>
+          </View>
+          <View style={styles.recommendationBox}>
+            <Text style={styles.recommendationText}>🔥 PS5 VR Room Diskon 25% untuk malam ini!</Text>
+          </View>
         </View>
-        <View style={styles.recommendationBox}>
-          <Text style={styles.recommendationText}>🔥 Main 4 Jam Gratis 1 Jam ( PS 5 )</Text>
-        </View>
-        <View style={styles.recommendationBox}>
-          <Text style={styles.recommendationText}>🔥 PS5 VR Room Diskon 25% untuk malam ini!</Text>
-        </View>
-      </View>
 
-      {/* Footer Spacer */}
-      <View style={styles.footerSpacer} />
-    </ScrollView>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}>
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              {selectedItem && (
+                <>
+                  <Image source={selectedItem.image} style={styles.modalImage} />
+                  <Text style={styles.modalTitle}>{selectedItem.title}</Text>
+                  <Text style={styles.modalPrice}>{selectedItem.price}</Text>
+                  <Text style={styles.modalSpek}>{selectedItem.spek}</Text>
+                  <Pressable
+                    style={styles.modalCloseButton}
+                    onPress={() => {
+                      setModalVisible(false);
+                      navigation.navigate('Booking');
+                    }}
+                  >
+                    <Text style={styles.modalCloseText}>Pesan Sekarang</Text>
+                  </Pressable>
+                </>
+              )}
+            </View>
+          </View>
+        </Modal>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 export default HomeScreen;
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#f5f9ff', // sesuaikan dengan warna latar belakang app kamu
+  },
   container: {
     flex: 1,
     backgroundColor: '#f5f9ff',
@@ -114,7 +174,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#275EFE',
-    marginTop: 65,
     marginBottom: 10,
     marginLeft: 5,
   },
@@ -126,12 +185,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   bannerImage: {
-  width: '100%',
-  height: 190,
-  borderRadius: 12,
-  marginBottom: 10,
-},
-
+    width: '100%',
+    height: 190,
+    borderRadius: 12,
+    marginBottom: 10,
+  },
   section: {
     marginTop: 20,
     marginBottom: 25,
@@ -224,7 +282,49 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
   },
-  footerSpacer: {
-    height: 50,
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 20,
+    width: '85%',
+    alignItems: 'center',
+  },
+  modalImage: {
+    width: 200,
+    height: 120,
+    resizeMode: 'contain',
+    marginBottom: 12,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#275EFE',
+  },
+  modalPrice: {
+    fontSize: 16,
+    color: '#333',
+    marginVertical: 5,
+  },
+  modalSpek: {
+    fontSize: 14,
+    color: '#555',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  modalCloseButton: {
+    backgroundColor: '#275EFE',
+    borderRadius: 8,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  modalCloseText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
