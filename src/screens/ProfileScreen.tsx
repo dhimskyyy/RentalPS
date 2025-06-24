@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ProfileScreen = () => {
   return (
+    <SafeAreaView style={styles.safeArea}>
     <View style={styles.container}>
       <Image
         source={require( '../assets/img/icons/pap.jpeg' )}
@@ -13,6 +14,7 @@ const ProfileScreen = () => {
       <Text style={styles.name}>Dhimas Afrizal</Text>
       <Text style={styles.desc}>Pelanggan aktif | Sering Booking</Text>
     </View>
+    </SafeAreaView>
   );
 };
 
