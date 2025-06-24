@@ -1,3 +1,4 @@
+// HomeScreen.tsx
 import React, { useState } from 'react';
 import {
   View,
@@ -9,24 +10,27 @@ import {
   Modal,
   Pressable,
 } from 'react-native';
-import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { RootTabParamList } from '../navigation/navigation';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 type HomeScreenNavigationProp = BottomTabNavigationProp<RootTabParamList, 'Home'>;
 
+type PSItem = {
+  title: string;
+  price: string;
+  image: any;
+  spek: string;
+};
+
 const HomeScreen = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
+  const insets = useSafeAreaInsets();
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<any>(null);
+  const [selectedItem, setSelectedItem] = useState<PSItem | null>(null);
 
-  const handlePressPesan = (item: any) => {
-    setSelectedItem(item);
-    setModalVisible(true);
-  };
-
-  const koleksiPS = [
+  const koleksiPS: PSItem[] = [
     {
       title: 'PS5 VR',
       price: 'Rp 50.000 / jam',
@@ -53,9 +57,37 @@ const HomeScreen = () => {
     },
   ];
 
+  const promoList = [
+    {
+      title: 'DISKON 50Rb',
+      desc: 'Untuk Penyewaan PS5 + TV',
+      code: 'Kode: PS50',
+    },
+    {
+      title: 'DISKON 10Rb',
+      desc: 'Untuk Penyewaan PS4',
+      code: 'Kode: PS10',
+    },
+  ];
+
+  const rekomendasiList = [
+    '🔥 Main 3 Jam Gratis 1 Jam ( PS 3 & PS 4 )',
+    '🔥 Main 4 Jam Gratis 1 Jam ( PS 5 )',
+    '🔥 PS5 VR Room Diskon 25% untuk malam ini!',
+  ];
+
+  const handlePressPesan = (item: PSItem) => {
+    setSelectedItem(item);
+    setModalVisible(true);
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={styles.container}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 16 }}
+      >
         <View style={styles.headerContainer}>
           <Text style={styles.logo}>Dhims PS</Text>
           <Image
@@ -81,53 +113,33 @@ const HomeScreen = () => {
           </ScrollView>
         </View>
 
-        <View style={styles.promoCard}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.promoTitle}>DISKON 50Rb</Text>
-              <Text style={styles.promoDesc}>Untuk Penyewaan PS5 + TV</Text>
-              <Text style={styles.promoCode}>Kode: PS50</Text>
+        {promoList.map((promo, i) => (
+          <View key={i} style={styles.promoCard}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.promoTitle}>{promo.title}</Text>
+                <Text style={styles.promoDesc}>{promo.desc}</Text>
+                <Text style={styles.promoCode}>{promo.code}</Text>
+              </View>
+              <Image
+                source={require('../assets/img/icons/discount.png')}
+                style={styles.promoImage}
+                resizeMode="contain"
+              />
             </View>
-            <Image
-              source={require('../assets/img/icons/discount.png')}
-              style={styles.promoImage}
-              resizeMode="contain"
-            />
           </View>
-        </View>
-        <View style={styles.promoCard}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.promoTitle}>DISKON 10Rb</Text>
-              <Text style={styles.promoDesc}>Untuk Penyewaan PS4</Text>
-              <Text style={styles.promoCode}>Kode: PS10</Text>
-            </View>
-            <Image
-              source={require('../assets/img/icons/discount.png')}
-              style={styles.promoImage}
-              resizeMode="contain"
-            />
-          </View>
-        </View>
+        ))}
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Rekomendasi Hari Ini</Text>
-          <View style={styles.recommendationBox}>
-            <Text style={styles.recommendationText}>🔥 Main 3 Jam Gratis 1 Jam ( PS 3 & PS 4 )</Text>
-          </View>
-          <View style={styles.recommendationBox}>
-            <Text style={styles.recommendationText}>🔥 Main 4 Jam Gratis 1 Jam ( PS 5 )</Text>
-          </View>
-          <View style={styles.recommendationBox}>
-            <Text style={styles.recommendationText}>🔥 PS5 VR Room Diskon 25% untuk malam ini!</Text>
-          </View>
+          {rekomendasiList.map((text, i) => (
+            <View key={i} style={styles.recommendationBox}>
+              <Text style={styles.recommendationText}>{text}</Text>
+            </View>
+          ))}
         </View>
 
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)}>
+        <Modal animationType="slide" transparent visible={modalVisible} onRequestClose={() => setModalVisible(false)}>
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
               {selectedItem && (
@@ -160,7 +172,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#f5f9ff', // sesuaikan dengan warna latar belakang app kamu
+    backgroundColor: '#f5f9ff',
   },
   container: {
     flex: 1,
@@ -176,13 +188,6 @@ const styles = StyleSheet.create({
     color: '#275EFE',
     marginBottom: 10,
     marginLeft: 5,
-  },
-  bannerPlaceholder: {
-    height: 160,
-    borderRadius: 12,
-    backgroundColor: '#d8e2ff',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   bannerImage: {
     width: '100%',
