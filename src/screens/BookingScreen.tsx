@@ -1,6 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Modal } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { BookingStackParamList } from '../navigation/types';
 
 const data = [
   {
@@ -36,6 +39,7 @@ const data = [
 const BookingScreen = () => {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [selectedItem, setSelectedItem] = React.useState<any>(null);
+  const navigation = useNavigation<NativeStackNavigationProp<BookingStackParamList>>();
 
   const handlePesan = (item: any) => {
     // Jika PS, tambahkan TV
@@ -90,9 +94,13 @@ const BookingScreen = () => {
             </Text>            
 
             <TouchableOpacity
-              onPress={() => setModalVisible(false)}
-              style={styles.modalButton}
-            >
+              onPress={() => {
+              setModalVisible(false);
+              setTimeout(() => {
+              navigation.navigate('BookingDetail', { item: selectedItem });
+              }, 300);
+              }}
+              style={styles.modalButton}>
               <Text style={styles.modalButtonText}>Pesan</Text>
             </TouchableOpacity>
           </View>

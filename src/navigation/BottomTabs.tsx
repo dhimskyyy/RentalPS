@@ -2,11 +2,11 @@ import React from 'react';
 import { Image, View, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import type { RootTabParamList } from './navigation';
-
 import HomeScreen from '../screens/HomeScreen';
 import BookingScreen from '../screens/BookingScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import BookingStack from '../navigation/BookingStack';
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
@@ -50,11 +50,7 @@ export default function BottomTabs() {
         component={HomeScreen}
         options={{ tabBarLabel: 'Home' }}
       />
-      <Tab.Screen
-        name="Booking"
-        component={BookingScreen}
-        options={{ tabBarLabel: 'Booking' }}
-      />
+      <Tab.Screen name="Booking" component={BookingStack} />
       <Tab.Screen
         name="Settings"
         component={SettingsScreen}
