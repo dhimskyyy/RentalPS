@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { db, storage } from '../config/firebase';
+
 
 
 const ProfileScreen = () => {

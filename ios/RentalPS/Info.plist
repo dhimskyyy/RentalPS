@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Kami membutuhkan akses ke galeri Anda untuk upload bukti pembayaran.</string>
 	<key>CFBundleDisplayName</key>
 	<string>RentalPS</string>
 	<key>CFBundleExecutable</key>

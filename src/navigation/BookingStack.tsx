@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BookingScreen from '../screens/BookingScreen';
 import BookingDetailScreen from '../screens/BookingDetailScreen';
 import { BookingStackParamList } from './types';
+import { db, storage } from '../config/firebase';
 
 const Stack = createNativeStackNavigator<BookingStackParamList>();
 
